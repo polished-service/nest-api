@@ -45,19 +45,6 @@ $ pnpm run start:dev
 $ pnpm run start:prod
 ```
 
-## Run tests
-
-```bash
-# unit tests
-$ pnpm run test
-
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
-```
-
 ## Resources
 
 Check out a few resources that may come in handy when working with NestJS:
