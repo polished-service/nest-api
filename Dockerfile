@@ -1,13 +1,14 @@
 FROM node:22
 
-RUN npm install -g pnpm
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
 
 WORKDIR /usr/src/app
 
-COPY package.json pnpm-lock.yaml ./
-
-RUN pnpm install --frozen-lockfile
+RUN npm install -g pnpm
 
 COPY . .
+
+RUN pnpm install --frozen-lockfile
 
 CMD ["pnpm", "run", "start:dev"]
