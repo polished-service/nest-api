@@ -7,6 +7,7 @@ import config from './config'
     imports: [
         ConfigModule.forRoot({
             load: [config],
+            expandVariables: true,
         }),
     ],
 })
