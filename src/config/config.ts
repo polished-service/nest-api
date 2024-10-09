@@ -8,10 +8,16 @@ const config = () => ({
         methods: process.env.CORS_METHODS || 'GET,HEAD,PUT,PATCH,POST,DELETE',
         credentials: process.env.CORS_CREDENTIALS === 'true' || true,
     },
+    jwt: {
+        accessSecret: process.env.JWT_ACCESS_SECRET || 'accessSecret',
+        refreshSecret: process.env.JWT_REFRESH_SECRET || 'refreshSecret',
+    },
 })
 
 export type DatabaseConfig = ReturnType<typeof config>['database']
 
 export type CorsConfig = ReturnType<typeof config>['cors']
+
+export type AuthConfig = ReturnType<typeof config>['jwt']
 
 export default config
