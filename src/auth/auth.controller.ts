@@ -1,8 +1,9 @@
-import { Body, Controller, HttpCode, HttpStatus, Post, Res } from '@nestjs/common'
+import { Body, Controller, HttpCode, HttpStatus, Post, Res, UseGuards } from '@nestjs/common'
 import { AuthService } from './auth.service'
 import { ResponseSignUpDto, SignUpDto } from './dto/sign-up.dto'
 import { ResponseSignInDto, SignInDto } from './dto/sign-in.dto'
 import { Response } from 'express'
+import { AccessTokenGuard } from './guards/access-token.guard'
 
 @Controller('auth')
 export class AuthController {
@@ -18,5 +19,12 @@ export class AuthController {
     @HttpCode(HttpStatus.CREATED)
     async signIn(@Body() signInDto: SignInDto, @Res({ passthrough: true }) res: Response): Promise<ResponseSignInDto> {
         return this.authService.signIn(signInDto, res)
+    }
+
+    @UseGuards(AccessTokenGuard)
+    @Post('logout')
+    @HttpCode(HttpStatus.OK)
+    async logout(@Res({ passthrough: true }) res: Response): Promise<boolean> {
+        return this.authService.logout(res)
     }
 }

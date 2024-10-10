@@ -83,6 +83,22 @@ export class AuthService {
         }
     }
 
+    logout(res: Response) {
+        res.clearCookie(ACCESS_TOKEN_COOKIE, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'lax',
+        })
+
+        res.clearCookie(REFRESH_TOKEN_COOKIE, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'lax',
+        })
+
+        return true
+    }
+
     private setAuthCookies(tokens: { accessToken: string; refreshToken: string }, res: Response) {
         res.cookie(ACCESS_TOKEN_COOKIE, tokens.accessToken, {
             httpOnly: true,
