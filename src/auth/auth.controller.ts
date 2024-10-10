@@ -4,6 +4,9 @@ import { ResponseSignUpDto, SignUpDto } from './dto/sign-up.dto'
 import { ResponseSignInDto, SignInDto } from './dto/sign-in.dto'
 import { Response } from 'express'
 import { AccessTokenGuard } from './guards/access-token.guard'
+import { RefreshTokenGuard } from './guards/refresh-token.guard'
+import { GetCurrentUser } from './decoratos/get-current-user.decorator'
+import { JwtTokenPayload } from './types/jwt-token-payload.type'
 
 @Controller('auth')
 export class AuthController {
@@ -26,5 +29,12 @@ export class AuthController {
     @HttpCode(HttpStatus.OK)
     async logout(@Res({ passthrough: true }) res: Response): Promise<boolean> {
         return this.authService.logout(res)
+    }
+
+    @UseGuards(RefreshTokenGuard)
+    @Post('refresh')
+    @HttpCode(HttpStatus.OK)
+    async refresh(@Res({ passthrough: true }) res: Response, @GetCurrentUser() user: JwtTokenPayload): Promise<boolean> {
+        return this.authService.refresh(res, user)
     }
 }

@@ -8,6 +8,7 @@ import { ACCESS_TOKEN_COOKIE, REFRESH_TOKEN_COOKIE } from './constants'
 import { User } from '@prisma/client'
 import { AuthConfig } from '../config/config'
 import { Response } from 'express'
+import { JwtTokenPayload } from './types/jwt-token-payload.type'
 
 @Injectable()
 export class AuthService {
@@ -95,6 +96,16 @@ export class AuthService {
             secure: true,
             sameSite: 'lax',
         })
+
+        return true
+    }
+
+    async refresh(res: Response, user: JwtTokenPayload) {
+        const { sub: userId, email } = user
+
+        const tokens = await this.getTokens({ id: userId, email })
+
+        this.setAuthCookies(tokens, res)
 
         return true
     }
