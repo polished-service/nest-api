@@ -10,20 +10,27 @@ services:
         volumes:
             - db_data:/var/lib/postgresql/data
 
+    redis:
+        image: redis:alpine
+        ports:
+            - '6379:6379'
+        volumes:
+            - redis_data:/data
+
     api:
         build:
             context: .
             dockerfile: Dockerfile
-        environment:
-            PORT: ${PORT}
         depends_on:
             - db
+            - redis
         volumes:
             - .:/usr/src/app
-            - /usr/src/app/node_modules/
+            - /usr/src/app/node_modules
         ports:
             - '3017:3017'
         command: ['pnpm', 'run', 'start:dev']
 
 volumes:
     db_data:
+    redis_data:
