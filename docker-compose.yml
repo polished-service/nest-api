@@ -26,7 +26,6 @@ services:
             - redis
         volumes:
             - .:/usr/src/app
-            - /usr/src/app/node_modules
         ports:
             - '3017:3017'
         command: ['pnpm', 'run', 'start:dev']
