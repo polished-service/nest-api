@@ -4,7 +4,7 @@ import { UsersService } from '../users/users.service'
 import { ConfigService } from '@nestjs/config'
 import { SignUpDto } from './dto/sign-up.dto'
 import { SignInDto } from './dto/sign-in.dto'
-import { ACCESS_TOKEN_COOKIE, REFRESH_TOKEN_COOKIE } from './constants'
+import { ACCESS_TOKEN_COOKIE, ACCESS_TOKEN_EXPIRES_IN, REFRESH_TOKEN_COOKIE, REFRESH_TOKEN_EXPIRES_IN } from './constants'
 import { User } from '@prisma/client'
 import { AuthConfig } from '../config/config'
 import { Response } from 'express'
@@ -66,14 +66,14 @@ export class AuthService {
                 { sub: userId, email },
                 {
                     secret: this.configService.get<AuthConfig>('jwt').accessSecret,
-                    expiresIn: '15m',
+                    expiresIn: ACCESS_TOKEN_EXPIRES_IN,
                 }
             ),
             this.jwtService.signAsync(
                 { sub: userId, email },
                 {
                     secret: this.configService.get<AuthConfig>('jwt').refreshSecret,
-                    expiresIn: '7d',
+                    expiresIn: REFRESH_TOKEN_EXPIRES_IN,
                 }
             ),
         ])
