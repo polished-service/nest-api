@@ -10,6 +10,7 @@ import { RedisConfig } from '../config/config'
         CacheModule.registerAsync({
             imports: [CustomConfigModule],
             inject: [ConfigService],
+            isGlobal: true,
             useFactory: async (configService: ConfigService) => ({
                 store: redisStore,
                 host: configService.get<RedisConfig>('redis').host,

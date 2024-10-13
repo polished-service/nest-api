@@ -6,7 +6,7 @@ import { RedisModule } from './redis/redis.module'
 import { CustomConfigModule } from './config/config.module'
 
 @Module({
-    imports: [CustomConfigModule, PrismaModule, UsersModule, AuthModule, RedisModule],
+    imports: [CustomConfigModule, PrismaModule, RedisModule, UsersModule, AuthModule],
     controllers: [],
     providers: [],
 })
