@@ -7,10 +7,11 @@ import { JwtModule } from '@nestjs/jwt'
 import { ConfigModule } from '@nestjs/config'
 import { RefreshTokenStrategy } from './strategies/refresh-token.strategy'
 import { AccessTokenStrategy } from './strategies/access-token.strategy'
+import { BlacklistService } from './blacklist.service'
 
 @Module({
     imports: [UsersModule, PassportModule, ConfigModule, JwtModule.register({})],
     controllers: [AuthController],
-    providers: [AuthService, AccessTokenStrategy, RefreshTokenStrategy],
+    providers: [AuthService, AccessTokenStrategy, RefreshTokenStrategy, BlacklistService],
 })
 export class AuthModule {}
