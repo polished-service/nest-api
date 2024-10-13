@@ -1,6 +1,7 @@
 # NestJS REST API
 
 ## Completed steps
+
 1. init project
 2. cleanup project from test files and useless controllers and services
 3. added nestjs/config
@@ -25,16 +26,17 @@
 22. created guards for checking access and refresh tokens
 23. created route for updating tokens through refresh token
 24. created route for logout with access token check through guard
+25. add blacklist service with redis
+26. add token to blacklist in logout route
+27. add blacklist check in refresh token route
 
 ## Next steps
-1. add blacklist service with redis
-2. add token to blacklist in logout route
-3. add blacklist check in refresh token route
-4. add csrf token to cookies
-5. add csrf token check for access and refresh guards
-6. add user roles handling
-7. add user active sessions control in user service/controller
-8. add unique nickname in schema (route for register)
-9. add ban system
-10. add images upload, storage and making blurhash for them
-11. add Content Security Policy
+
+1. add csrf token to cookies 
+2. add csrf token check for access and refresh guards 
+3. add user roles handling 
+4. add user active sessions control in user service/controller 
+5. add unique nickname in schema (route for register)
+6. add ban system 
+7. add images upload, storage and making blurhash for them 
+8. add Content Security Policy
