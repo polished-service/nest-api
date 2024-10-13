@@ -1,12 +1,13 @@
-import { Body, Controller, HttpCode, HttpStatus, Post, Res, UseGuards } from '@nestjs/common'
+import { Body, Controller, HttpCode, HttpStatus, Post, Req, Res, UseGuards } from '@nestjs/common'
 import { AuthService } from './auth.service'
 import { ResponseSignUpDto, SignUpDto } from './dto/sign-up.dto'
 import { ResponseSignInDto, SignInDto } from './dto/sign-in.dto'
-import { Response } from 'express'
+import { Response, Request } from 'express'
 import { AccessTokenGuard } from './guards/access-token.guard'
 import { RefreshTokenGuard } from './guards/refresh-token.guard'
 import { GetCurrentUser } from './decoratos/get-current-user.decorator'
 import { JwtTokenPayload } from './types/jwt-token-payload.type'
+import { REFRESH_TOKEN_COOKIE } from './constants'
 
 @Controller('auth')
 export class AuthController {
@@ -27,8 +28,10 @@ export class AuthController {
     @UseGuards(AccessTokenGuard)
     @Post('logout')
     @HttpCode(HttpStatus.OK)
-    async logout(@Res({ passthrough: true }) res: Response): Promise<boolean> {
-        return this.authService.logout(res)
+    async logout(@Res({ passthrough: true }) res: Response, @Req() req: Request): Promise<boolean> {
+        const refreshToken = req.cookies[REFRESH_TOKEN_COOKIE]
+
+        return this.authService.logout(res, refreshToken)
     }
 
     @UseGuards(RefreshTokenGuard)

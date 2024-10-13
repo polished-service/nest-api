@@ -9,13 +9,15 @@ import { User } from '@prisma/client'
 import { AuthConfig } from '../config/config'
 import { Response } from 'express'
 import { JwtTokenPayload } from './types/jwt-token-payload.type'
+import { BlacklistService } from './blacklist.service'
 
 @Injectable()
 export class AuthService {
     constructor(
         private readonly usersService: UsersService,
         private readonly jwtService: JwtService,
-        private readonly configService: ConfigService
+        private readonly configService: ConfigService,
+        private readonly blacklistService: BlacklistService
     ) {}
 
     async signUp(signUpDto: SignUpDto, res: Response) {
@@ -84,7 +86,9 @@ export class AuthService {
         }
     }
 
-    logout(res: Response) {
+    logout(res: Response, refreshToken: string) {
+        void this.blacklistService.addTokenToBlacklist(refreshToken)
+
         res.clearCookie(ACCESS_TOKEN_COOKIE, {
             httpOnly: true,
             secure: true,
